@@ -5,8 +5,7 @@ const HuntRepo = ({ db, pgp }) => {
   const qf = loadQueryFiles(join(import.meta.url, './sql'))
 
   const getAll = async () => {
-    const sql = 'select * from hunts'
-    return await db.manyOrNone(sql)
+    return await db.manyOrNone(qf.getAll)
   }
 
   const getById = async ({ id }) => {
