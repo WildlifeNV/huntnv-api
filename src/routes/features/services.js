@@ -17,9 +17,12 @@ export default fp(async (fastify, opts, next) => {
     return {}
   }
 
+  const getMvt = async ({ table, z, x, y }) => await features.getMvt({ table, z, x, y })
+
   fastify.decorate('features', {
     getFeaturesList,
-    getFeature
+    getFeature,
+    getMvt
   })
   next()
 })

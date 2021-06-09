@@ -18,10 +18,16 @@ const FeatureRepo = ({ db, pgp }) => {
     return rows.geobuf
   }
 
+  const getMvt = async ({ table, z, x, y }) => {
+    const rows = await db.one(qf.getMvt, { table, z, x, y })
+    return rows.mvt
+  }
+
   return {
     getFeaturesList,
     getGeojson,
-    getGeobuf
+    getGeobuf,
+    getMvt
   }
 }
 

@@ -26,4 +26,19 @@ export default async function (fastify, opts) {
       return data
     }
   })
+
+  fastify.route({
+    method: 'GET',
+    url: '/:table/:z/:x/:y',
+    handler: async (req, reply) => {
+      const { table, z, x, y } = req.params
+      const mvt = await fastify.features.getMvt({ table, z, x, y })
+
+      if (mvt.length === 0) { reply.code(204) }
+
+      reply
+        .header('Content-Type', 'application/x-protobuf')
+        .send(mvt)
+    }
+  })
 }
