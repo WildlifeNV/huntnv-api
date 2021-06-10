@@ -18,13 +18,13 @@ export default async function (fastify, opts) {
 
   fastify.route({
     method: 'GET',
-    url: '/:table/items/:id(.).:format',
+    url: '/:table/items/:id(\\d+).:format',
     handler: onGetFeature
   })
 
   fastify.route({
     method: 'GET',
-    url: '/:table/:z/:x/:y(.).pbf',
+    url: '/:table/:z/:x/:y(\\d+).pbf',
     handler: onGetMvt
   })
 }
