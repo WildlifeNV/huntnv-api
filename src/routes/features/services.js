@@ -6,7 +6,7 @@ export default fp(async (fastify, opts, next) => {
 
   const getFeaturesList = async () => await features.getFeaturesList()
 
-  const getFeature = async ({ table, format }) => {
+  const getFeatures = async ({ table, format }) => {
     if (format === 'geojson') {
       return await features.getGeojson({ table })
     }
@@ -17,10 +17,21 @@ export default fp(async (fastify, opts, next) => {
     return {}
   }
 
+  const getFeature = async ({ table, format, id }) => {
+    if (format === 'geojson') {
+      return await features.getGeojsonById({ table, id })
+    }
+    if (format === 'geobuf' || format === 'pbf') {
+      return await features.getGeobufById({ table, id })
+    }
+    return {}
+  }
+
   const getMvt = async ({ table, z, x, y }) => await features.getMvt({ table, z, x, y })
 
   fastify.decorate('features', {
     getFeaturesList,
+    getFeatures,
     getFeature,
     getMvt
   })

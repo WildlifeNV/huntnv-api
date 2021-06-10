@@ -13,8 +13,18 @@ const FeatureRepo = ({ db, pgp }) => {
     return rows.geojson
   }
 
+  const getGeojsonById = async ({ table, id }) => {
+    const rows = await db.one(qf.getGeojsonById, { table, id }, rewriteNullAsObj)
+    return rows.geojson
+  }
+
   const getGeobuf = async ({ table }) => {
     const rows = await db.one(qf.getGeobuf, { table })
+    return rows.geobuf
+  }
+
+  const getGeobufById = async ({ table, id }) => {
+    const rows = await db.one(qf.getGeobufById, { table, id })
     return rows.geobuf
   }
 
@@ -26,7 +36,9 @@ const FeatureRepo = ({ db, pgp }) => {
   return {
     getFeaturesList,
     getGeojson,
+    getGeojsonById,
     getGeobuf,
+    getGeobufById,
     getMvt
   }
 }
