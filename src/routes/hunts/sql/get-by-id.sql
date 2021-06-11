@@ -1,3 +1,4 @@
+-- include landownership stuff
 SELECT
   hunts.id,
   hunts.species_id,
@@ -34,7 +35,30 @@ SELECT
       ) AS sq
       WHERE sq.units ?| hunt_units.hunt_units
     ) AS related_hunts
-  ) AS similar_hunts
+  ) AS similar_hunts,
+  (
+    SELECT jsonb_agg(plc)
+    FROM (
+      SELECT
+        joiner.hunt_id,
+        plc.surface_mgmt_agency,
+        sum(plc.area) AS area,
+        sum(plc.area) / max(total.area) AS coverage,
+        max(total.area) AS hunt_area
+      FROM joiner_hunt_units_hunts AS joiner
+      JOIN public_landownership_coverage AS plc ON joiner.hunt_unit_id = plc.hunt_unit_id
+      JOIN (
+        SELECT
+          joiner.hunt_id,
+          sum(hunt_units.area) AS area
+        FROM joiner_hunt_units_hunts AS joiner
+        JOIN hunt_units ON joiner.hunt_unit_id = hunt_units.id
+        GROUP BY joiner.hunt_id
+      ) AS total ON joiner.hunt_id = total.hunt_id
+      WHERE joiner.hunt_id = hunts.id
+      GROUP BY 1, 2
+    ) AS plc
+  ) AS landownership
 FROM hunts
 JOIN lkp_species_class ON hunts.species_id = lkp_species_class.id
 JOIN (
@@ -47,3 +71,37 @@ JOIN (
 ) AS hunt_units ON hunts.id = hunt_units.hunt_id
 JOIN quotas ON hunts.id = quotas.hunt_id
 WHERE hunts.id = $<id>
+
+-- --
+-- SELECT
+--   joiner.hunt_id,
+--   plc.surface_mgmt_agency,
+--   sum(hunt_units.area) AS hu_area,
+--   sum(plc.area)
+-- FROM joiner_hunt_units_hunts AS joiner
+-- JOIN hunt_units ON joiner.hunt_unit_id = hunt_units.id
+-- JOIN public_landownership_coverage AS plc ON hunt_units.id = plc.hunt_unit_id
+-- WHERE joiner.hunt_id = 325
+-- GROUP BY rollup(joiner.hunt_id, plc.surface_mgmt_agency)
+
+
+
+
+-- SELECT
+--   joiner.hunt_id,
+--   plc.surface_mgmt_agency,
+--   sum(plc.area) AS area,
+--   sum(plc.area) / max(total.area) AS coverage,
+--   max(total.area) AS hunt_area
+-- FROM joiner_hunt_units_hunts AS joiner
+-- JOIN public_landownership_coverage AS plc ON joiner.hunt_unit_id = plc.hunt_unit_id
+-- JOIN (
+--   SELECT
+--     joiner.hunt_id,
+--     sum(hunt_units.area) AS area
+--   FROM joiner_hunt_units_hunts AS joiner
+--   JOIN hunt_units ON joiner.hunt_unit_id = hunt_units.id
+--   GROUP BY joiner.hunt_id
+-- ) AS total ON joiner.hunt_id = total.hunt_id
+-- WHERE joiner.hunt_id = 325
+-- GROUP BY 1, 2
