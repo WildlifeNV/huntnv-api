@@ -1,4 +1,5 @@
 import services from './services.js'
+import schema from './schemas.js'
 
 export default async function (fastify, opts) {
   fastify.register(services)
@@ -13,6 +14,9 @@ export default async function (fastify, opts) {
   fastify.route({
     method: 'GET',
     url: '/:table/items.:format',
+    schema: {
+      querystring: schema.getFeaturesQuerystring
+    },
     handler: onGetFeatures
   })
 
@@ -35,7 +39,8 @@ async function onGetFeaturesList () {
 
 async function onGetFeatures (req, reply) {
   const { table, format } = req.params
-  const data = await this.features.getFeatures({ table, format })
+  const { query } = req
+  const data = await this.features.getFeatures({ table, format, query })
 
   if (format === 'geobuf' || format === 'pbf') {
     reply

@@ -6,4 +6,5 @@ SELECT
 FROM (
   SELECT *
   FROM $<table:name>
+  $<where:raw>
 ) AS sq

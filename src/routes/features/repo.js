@@ -8,8 +8,9 @@ const FeatureRepo = ({ db, pgp }) => {
     return await db.many(qf.getFeaturesList)
   }
 
-  const getGeojson = async ({ table }) => {
-    const rows = await db.one(qf.getGeojson, { table }, rewriteNullAsObj)
+  const getGeojson = async ({ table, query }) => {
+    const where = formatWhere(query, pgp.as.format)
+    const rows = await db.one(qf.getGeojson, { table, where }, rewriteNullAsObj)
     return rows.geojson
   }
 
@@ -18,8 +19,9 @@ const FeatureRepo = ({ db, pgp }) => {
     return rows.geojson
   }
 
-  const getGeobuf = async ({ table }) => {
-    const rows = await db.one(qf.getGeobuf, { table })
+  const getGeobuf = async ({ table, query }) => {
+    const where = formatWhere(query, pgp.as.format)
+    const rows = await db.one(qf.getGeobuf, { table, where })
     return rows.geobuf
   }
 
@@ -44,3 +46,13 @@ const FeatureRepo = ({ db, pgp }) => {
 }
 
 export default FeatureRepo
+
+function formatWhere (query, format) {
+  const where = query
+    ? format('where display_name in ($<units:csv>)', {
+      units: query.display_name
+    })
+    : ''
+
+  return where
+}
