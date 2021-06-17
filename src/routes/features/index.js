@@ -13,7 +13,7 @@ export default async function (fastify, opts) {
 
   fastify.route({
     method: 'GET',
-    url: '/:table/items.:format',
+    url: '/:table(\\w+).:format',
     schema: {
       querystring: schema.getFeaturesQuerystring
     },
@@ -22,7 +22,7 @@ export default async function (fastify, opts) {
 
   fastify.route({
     method: 'GET',
-    url: '/:table/items/:id(\\d+).:format',
+    url: '/:table/:id(\\d+).:format',
     handler: onGetFeature
   })
 

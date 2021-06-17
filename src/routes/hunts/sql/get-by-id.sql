@@ -16,11 +16,13 @@ SELECT
   (
     SELECT jsonb_agg(related_hunts)
     FROM (
-      SELECT hunt_id, display_name, weapon, draw_type, season_dates, unit_group
+      SELECT hunt_id, display_name, species, class, weapon, draw_type, season_dates, unit_group
       FROM (
         SELECT
           joiner.hunt_id,
           lkp_species_class.display_name,
+          lkp_species_class.species,
+          lkp_species_class.class,
           hunts.weapon,
           hunts.draw_type,
           hunts.season_dates,
@@ -30,8 +32,8 @@ SELECT
         JOIN hunt_units ON joiner.hunt_unit_id = hunt_units.id
         JOIN hunts ON joiner.hunt_id = hunts.id
         JOIN lkp_species_class ON hunts.species_id = lkp_species_class.id
-        GROUP BY 1, 2, 3, 4, 5, 6
-        ORDER BY 4 DESC, 2, 3
+        GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
+        ORDER BY 2, 5, 6 DESC
       ) AS sq
       WHERE sq.units ?| hunt_units.hunt_units
     ) AS related_hunts
