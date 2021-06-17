@@ -1,6 +1,6 @@
 SELECT 
   json_build_object(
-    'type', 'featureCollection',
+    'type', 'FeatureCollection',
     'features', json_agg(st_asgeojson(sq, 'geom', 5)::jsonb)
   )::jsonb AS geojson
 FROM (
