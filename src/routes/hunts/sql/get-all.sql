@@ -8,6 +8,7 @@ SELECT
   hunts.draw_type,
   hunts.unit_group,
   hunts.season_dates,
+  hunts.hunt_geometry_id,
   hunts.is_new,
   hunts.is_active,
   quotas.quota
