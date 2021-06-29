@@ -7,7 +7,7 @@ bounds AS (
 mvtgeom AS (
   SELECT
     st_asmvtgeom(st_transform(t.geom, 3857), bounds.geom) as geom,
-    *
+    $<columns:name>
   FROM $<table:name> AS t, bounds
   WHERE st_intersects(t.geom, st_transform(bounds.geom, 4326)) 
 )
