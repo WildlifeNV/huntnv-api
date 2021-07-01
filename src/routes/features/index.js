@@ -71,6 +71,7 @@ async function onGetFeature (req, reply) {
 async function onGetMvt (req, reply) {
   const { table, z, x, y } = req.params
   const sourceTable = this.spatialTables.filter(item => item.table_name === table)
+  console.log({ sourceTable, table })
   const columns = Object.keys(sourceTable[0].properties)
   const mvt = await this.features.getMvt({ table, columns, z, x, y })
 
