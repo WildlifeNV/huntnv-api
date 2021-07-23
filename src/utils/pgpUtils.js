@@ -1,5 +1,6 @@
 import pgp from 'pg-promise'
 import fs from 'fs'
+import { isDev } from './isDev.js'
 const { QueryFile } = pgp
 
 export const rewriteNullAsObj = (result) => (!result ? {} : result)
@@ -11,8 +12,8 @@ export const loadQueryFiles = (dir) => {
     const key = camelize(file.split('.')[0])
     const fullpath = `${dir}/${file}`
     const qf = new QueryFile(fullpath, {
-      minify: true,
-      compress: true
+      minify: !isDev,
+      compress: !isDev
     })
     return Object.assign(acc, { [key]: qf })
   }, {})
