@@ -87,6 +87,7 @@ SELECT
   hunts.hunt_geometry_id,
   hunts.hunt_narrative_id,
   lkp_species_class.display_name,
+  lkp_species.species,
   hunts.weapon,
   hunts.draw_type,
   hunts.unit_group,
@@ -125,4 +126,4 @@ JOIN hunt_geometries ON hunts.hunt_geometry_id = hunt_geometries.id
 JOIN hunt_geometries_public_land ON hunts.hunt_geometry_id = hunt_geometries_public_land.hunt_geometry_id
 JOIN landownership ON hunts.hunt_geometry_id = landownership.hunt_geometry_id
 LEFT JOIN hunt_stats_gb_narrative ON hunts.hunt_narrative_id = hunt_stats_gb_narrative.hunt_narrative_id
-WHERE hunts.id = 485;
+WHERE hunts.id = $<id>

@@ -171,6 +171,7 @@ const huntsGetById = {
         hunt_geometry_id: { type: 'integer' },
         hunt_narrative_id: { type: 'integer' },
         display_name: { type: 'string' },
+        species: { type: 'string' },
         weapon: { type: 'string' },
         draw_type: { type: 'string' },
         hunt_units_arr: {
