@@ -209,6 +209,20 @@ const huntsGetById = {
             additionalProperties: false,
             properties: huntStatsProps
           }
+        },
+        bounds: {
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            sw: {
+              type: 'array',
+              items: { type: 'number' }
+            },
+            ne: {
+              type: 'array',
+              items: { type: 'number' }
+            }
+          }
         }
       }
     }

@@ -116,7 +116,11 @@ SELECT
     WHERE related_hunts.units @> hunt_geometries.hunt_units_arr
   ) AS related_hunts,
   landownership.landownership_arr AS landownership,
-  hunt_stats_gb_narrative.stats AS hunt_stats
+  hunt_stats_gb_narrative.stats AS hunt_stats,
+  jsonb_build_object(
+    'sw', jsonb_build_array(st_xmin(geom), st_ymin(geom)),
+    'ne', jsonb_build_array(st_xmax(geom), st_ymax(geom))
+  ) as bounds
 FROM hunts
 JOIN lkp_species_class ON hunts.species_class_id = lkp_species_class.id
 JOIN lkp_species ON lkp_species_class.species_id = lkp_species.id
