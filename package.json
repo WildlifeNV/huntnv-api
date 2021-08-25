@@ -7,9 +7,11 @@
   "scripts": {
     "start": "fastify start -l info src/app.js",
     "dev": "fastify start -w -l info -P src/app.js",
-    "docker:build": "docker build -t huntnv-api:$(jq '.version' package.json | tr -d '\"') .",
     "docker:tag": "docker tag huntnv-api:$(jq '.version' package.json | tr -d '\"') huntnv-api:latest",
-    "docker": "npm run docker:build && npm run docker:tag"
+    "docker:arm64:build": "docker build --platform linux/arm64 -t huntnv-api:$(jq '.version' package.json | tr -d '\"') .",
+    "docker:arm64": "npm run docker:arm64:build && npm run docker:tag",
+    "docker:amd64:build": "docker build --platform linux/amd64 -t huntnv-api:$(jq '.version' package.json | tr -d '\"') .",
+    "docker:amd64": "npm run docker:amd64:build && npm run docker:tag"
   },
   "author": "",
   "license": "ISC",
