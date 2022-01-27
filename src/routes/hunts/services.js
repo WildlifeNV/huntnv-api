@@ -41,7 +41,7 @@ export default fp(async (fastify, opts, next) => {
 
     return {
       total_hunts: totalHunts,
-      hunts: data
+      hunt_feed: data
     }
   }
 

@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-
 // JSON schema parts for /hunts/feed
 const huntsFeedQueryStringProps = {
   species_class_id: {
