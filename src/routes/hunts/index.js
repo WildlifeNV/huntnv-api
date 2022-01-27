@@ -6,13 +6,6 @@ export default async function (fastify, opts) {
 
   fastify.route({
     method: 'GET',
-    url: '/',
-    schema: schema.huntsGetAll,
-    handler: getAllHunts
-  })
-
-  fastify.route({
-    method: 'GET',
     url: '/feed',
     schema: schema.huntsFeed,
     handler: getHuntFeed
@@ -24,11 +17,6 @@ export default async function (fastify, opts) {
     schema: schema.huntsGetById,
     handler: getHuntById
   })
-}
-
-async function getAllHunts (req, reply) {
-  const data = await this.hunts.getAll({ query: req.query })
-  return data
 }
 
 async function getHuntFeed (req, reply) {

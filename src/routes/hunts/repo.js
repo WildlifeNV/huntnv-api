@@ -5,11 +5,6 @@ const HuntRepo = ({ db, pgp }) => {
   const qf = loadQueryFiles(join(import.meta.url, './sql'))
   const format = pgp.as.format
 
-  const getAll = async ({ query }) => {
-    const where = queryToWhere(query, format)
-    return await db.manyOrNone(qf.getAll, { where })
-  }
-
   const huntFeed = async ({ query }) => {
     const whereStr = query
       .map((filter) =>
@@ -27,19 +22,8 @@ const HuntRepo = ({ db, pgp }) => {
 
   return {
     huntFeed,
-    getAll,
     getById
   }
 }
 
 export default HuntRepo
-
-function queryToWhere (query, format) {
-  const whereStr = query
-    .map((filter) =>
-      format('$<column:name> $<operator:raw> $<condition>', filter)
-    )
-    .join(' and ')
-
-  return !whereStr ? '' : `where ${whereStr}`
-}

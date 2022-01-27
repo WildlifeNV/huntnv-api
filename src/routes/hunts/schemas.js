@@ -46,68 +46,6 @@ const huntsFeed = {
   }
 }
 
-// JSON schema parts for /hunts
-const huntsGetAllQueryStringProps = {
-  ...huntsFeedQueryStringProps,
-  hunt_year: {
-    type: 'integer',
-    description: 'Return hunts equal to (=) the year provided. Must be >= 2018 and <= 2021.',
-    minimum: 2018,
-    maximum: 2021
-  }
-}
-
-const huntsGetAll = {
-  description: 'Return all hunts and hunt data starting from 2018 to the current year.',
-  tags: ['hunts'],
-  querystring: {
-    type: 'object',
-    additionalProperties: false,
-    properties: huntsGetAllQueryStringProps
-  },
-  response: {
-    200: {
-      type: 'object',
-      properties: {
-        total_hunts: {
-          type: 'integer',
-          description: 'The total number of hunts returned by the query.'
-        },
-        hunts: {
-          type: 'array',
-          items: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              id: { type: 'integer' },
-              hunt_geometry_id: { type: 'integer' },
-              species_class_id: { type: 'integer' },
-              display_name: { type: 'string' },
-              species: { type: 'string' },
-              weapon: { type: 'string' },
-              draw_type: { type: 'string' },
-              unit_group: { type: 'string' },
-              season_order_modifier: { type: 'string' },
-              hunt_year: { type: 'integer' },
-              season_dates: { type: 'string' },
-              season_start_date: { type: 'string' },
-              season_end_date: { type: 'string' },
-              season_length: { type: 'integer' },
-              quota: { type: 'integer' },
-              applications: { type: 'integer' },
-              hunters_afield: { type: 'integer' },
-              draw_rate: { type: 'number' },
-              success_rate: { type: 'number' },
-              points_or_greater: { type: 'number' },
-              length_or_greater: { type: 'number' }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
 // JSON schema parts for /hunts/:id
 const relatedHuntsProps = {
   hunt_id: { type: 'integer' },
@@ -230,6 +168,5 @@ const huntsGetById = {
 
 export default {
   huntsFeed,
-  huntsGetAll,
   huntsGetById
 }
