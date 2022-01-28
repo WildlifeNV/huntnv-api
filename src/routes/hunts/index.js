@@ -14,7 +14,7 @@ export default async function (fastify, opts) {
   fastify.route({
     method: 'GET',
     url: '/:id',
-    schema: schema.huntsGetById,
+    // schema: schema.huntsGetById,
     handler: getHuntById
   })
 }

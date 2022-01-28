@@ -42,6 +42,11 @@ export default fp(async (fastify, opts, next) => {
     }
   }
 
+  /**
+   * Returns a single hunt data object, formatted, from the database.
+   * @param {Object} params Parameters to pass to the database.
+   * @param {number} params.id The ID of the hunt to fetch
+   */
   const getById = async (params) => {
     return await hunts.getById({ id: params.id })
   }
