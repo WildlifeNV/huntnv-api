@@ -52,7 +52,7 @@ const schema = {
   querystring
 }
 
-const handler = async ({ query, log, huntRepo }) => {
+const handler = async ({ query, huntRepo }) => {
   const data = await huntRepo.getHuntFeed(query)
   return data
 }
