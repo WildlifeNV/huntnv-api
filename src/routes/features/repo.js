@@ -1,9 +1,6 @@
-import { join } from 'desm'
-import { loadQueryFiles, rewriteNullAsObj } from '../../utils/pgpUtils.js'
+import { rewriteNullAsObj } from '../../utils/pgpUtils.js'
 
-const FeatureRepo = ({ db, pgp }) => {
-  const qf = loadQueryFiles(join(import.meta.url, './sql'))
-
+const FeatureRepo = ({ db, qf, pgp }) => {
   const getFeaturesList = async () => {
     return await db.many(qf.getFeaturesList)
   }
