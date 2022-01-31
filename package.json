@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "desm": "^1.1.0",
+    "fast-glob": "^3.2.11",
     "fastify": "^3.17.0",
     "fastify-autoload": "^3.7.1",
     "fastify-cors": "^6.0.1",

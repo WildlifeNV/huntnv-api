@@ -1,4 +1,5 @@
 import pgp from 'pg-promise'
+import fg from 'fast-glob'
 import fs from 'fs'
 import { IS_DEV } from './isDev.js'
 const { QueryFile } = pgp
@@ -16,6 +17,25 @@ export const loadQueryFiles = (dir) => {
     })
     return Object.assign(acc, { [key]: qf })
   }, {})
+}
+
+export const loadQueryFilesSync = (dir) => {
+  const entries = fg.sync(dir, {
+    objectMode: true,
+    absolute: true
+  })
+  const out = {}
+
+  entries.forEach((entry) => {
+    const qfName = camelize(entry.name.split('.')[0])
+    const qf = new pgp.QueryFile(entry.path, {
+      minify: false
+    })
+
+    out[qfName] = qf
+  })
+
+  return out
 }
 
 function camelize(str) {
@@ -64,4 +84,15 @@ function rmEmptyProps(obj) {
       obj[key] === undefined ? { ...acc } : { ...acc, [key]: obj[key] },
     {}
   )
+}
+
+export const queryArrToWhere = (arr, { prepend = true, value = 'where' } = {}) => {
+  if (!arr.length) return ''
+
+  const str = arr.map((filter) =>
+    pgp.as.format('$<column:name> $<operator:raw> $<condition>', filter)
+  )
+    .join(' and ')
+
+  return prepend ? `${value} ${str}` : str
 }
