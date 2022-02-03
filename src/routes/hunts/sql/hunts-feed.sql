@@ -11,8 +11,8 @@ WITH hunt_details AS (
     to_char(season_start_date, 'MM/DD/YYYY') || ' - ' || to_char(season_end_date, 'MM/DD/YYYY') AS season_dates,
     hunt_quotas.quota,
     harvest_data.harvest_rate,
-    harvest_data.points_or_greater,
-    harvest_data.length_or_greater,
+    harvest_data.maturity_description,
+    harvest_data.maturity_value,
     draw_data.median_bp_of_successful_applications,
     draw_data.draw_difficulty_qtile
   FROM hunts
