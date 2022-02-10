@@ -4,7 +4,13 @@ import { rewriteNullAsObj, queryArrToWhere, filters } from '../../utils/pgpUtils
 
 const HuntRepo = ({ db, qf, pgp }) => {
   const getHuntFeed = async (query) => {
-    const gteKeys = ['harvest_rate', 'draw_difficulty_qtile', 'median_bp_of_successful_applications']
+    const gteKeys = [
+      'harvest_rate',
+      'maturity_value',
+      'draw_difficulty_qtile',
+      'draw_difficulty_rank',
+      'median_bp_of_successful_applications'
+    ]
     const eqKeys = ['species_class_id', 'draw_type', 'weapon']
     const ploKey = ['percent_public_land']
     const gteProps = pickTruthy(pick(query, gteKeys))

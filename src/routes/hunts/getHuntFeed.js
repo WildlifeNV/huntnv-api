@@ -20,9 +20,21 @@ const querystring = {
       'any legal weapon'
     ]
   },
+  percent_public_land: {
+    type: 'number',
+    description: 'Return hunts where the percentage of public land is greater than or equal to (>=) the number provided.',
+    minimum: 0,
+    maximum: 100
+  },
   harvest_rate: {
     type: 'number',
     description: 'Return hunts with a harvest success rate greater than or equal to (>=) the number provided.',
+    minimum: 0,
+    maximum: 1
+  },
+  maturity_value: {
+    type: 'number',
+    description: '',
     minimum: 0,
     maximum: 1
   },
@@ -32,17 +44,17 @@ const querystring = {
     minimum: 0,
     maximum: 5
   },
+  draw_difficulty_rank: {
+    type: 'integer',
+    description: 'Return hunts with a draw rank betweein the number provided and 30 (the maximum).',
+    minimum: 0,
+    maximum: 30
+  },
   median_bp_of_successful_applications: {
     type: 'number',
     description: 'Return hunts where the median bonus points of successful applications are greater than or equal to (>=) the number provided.',
     minimum: 0,
     maximum: 29
-  },
-  percent_public_land: {
-    type: 'number',
-    description: 'Return hunts where the percentage of public land is greater than or equal to (>=) the number provided.',
-    minimum: 0,
-    maximum: 100
   }
 }
 

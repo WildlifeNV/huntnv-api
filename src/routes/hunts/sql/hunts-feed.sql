@@ -14,7 +14,8 @@ WITH hunt_details AS (
     harvest_data.maturity_description,
     harvest_data.maturity_value,
     draw_data.median_bp_of_successful_applications,
-    draw_data.draw_difficulty_qtile
+    draw_data.draw_difficulty_qtile,
+    draw_data.draw_difficulty_rank
   FROM hunts
   JOIN lkp_species_class ON hunts.species_class_id = lkp_species_class.id
   JOIN lkp_species ON lkp_species_class.species_id = lkp_species.id
