@@ -55,6 +55,10 @@ const querystring = {
     description: 'Return hunts where the median bonus points of successful applications are greater than or equal to (>=) the number provided.',
     minimum: 0,
     maximum: 29
+  },
+  hunt_unit: {
+    type: 'string',
+    description: 'A unit string with the leading 0 to narrow the search.'
   }
 }
 

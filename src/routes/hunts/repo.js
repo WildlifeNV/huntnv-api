@@ -17,8 +17,6 @@ const HuntRepo = ({ db, qf, pgp }) => {
     const eqProps = pickTruthy(pick(query, eqKeys))
     const ploProps = pickTruthy(pick(query, ploKey))
 
-    const ploQuery = filters(ploProps)
-    if (ploQuery.length) ploQuery[0].operator = '>='
     const huntDetailsQuery = filters(eqProps)
     Object.keys(gteProps).forEach(prop => {
       huntDetailsQuery.push({
@@ -27,8 +25,17 @@ const HuntRepo = ({ db, qf, pgp }) => {
         condition: gteProps[prop]
       })
     })
-
+    if (query.hunt_unit) {
+      huntDetailsQuery.push({
+        column: 'hunt_units_arr',
+        operator: '?',
+        condition: query.hunt_unit
+      })
+    }
     const huntDetailsWhere = queryArrToWhere(huntDetailsQuery, { value: 'and' })
+
+    const ploQuery = filters(ploProps)
+    if (ploQuery.length) ploQuery[0].operator = '>='
     const ploWhere = queryArrToWhere(ploQuery)
 
     const data = await db.oneOrNone(qf.huntsFeed, {

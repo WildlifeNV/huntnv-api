@@ -19,6 +19,7 @@ WITH hunt_details AS (
   FROM hunts
   JOIN lkp_species_class ON hunts.species_class_id = lkp_species_class.id
   JOIN lkp_species ON lkp_species_class.species_id = lkp_species.id
+  LEFT JOIN hunt_geometries ON hunts.hunt_geometry_id = hunt_geometries.id
   LEFT JOIN hunt_quotas ON hunts.id = hunt_quotas.hunt_id AND hunt_quotas.hunt_year = 2021
   LEFT JOIN hunt_seasons ON hunts.id = hunt_seasons.hunt_id AND hunt_seasons.hunt_year = 2021
   LEFT JOIN harvest_data ON hunts.id = harvest_data.hunt_id AND harvest_data.hunt_year = 2020
