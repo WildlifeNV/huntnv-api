@@ -8,22 +8,24 @@ WITH hunt_details AS (
     hunts.weapon,
     hunts.draw_type,
     hunts.season_order_modifier,
-    to_char(season_start_date, 'MM/DD/YYYY') || ' - ' || to_char(season_end_date, 'MM/DD/YYYY') AS season_dates,
+    hunts.hunt_restrictions,
+    to_char(season_start_date, 'Mon. DD, YYYY') || ' - ' || to_char(season_end_date, 'Mon. DD, YYYY') AS season_dates,
     hunt_quotas.quota,
     harvest_data.harvest_rate,
     harvest_data.maturity_description,
     harvest_data.maturity_value,
     draw_data.median_bp_of_successful_applications,
     draw_data.draw_difficulty_qtile,
-    draw_data.draw_difficulty_rank
+    draw_data.draw_difficulty_rank,
+    draw_data.draw_difficulty_rank_max
   FROM hunts
   JOIN lkp_species_class ON hunts.species_class_id = lkp_species_class.id
   JOIN lkp_species ON lkp_species_class.species_id = lkp_species.id
   LEFT JOIN hunt_geometries ON hunts.hunt_geometry_id = hunt_geometries.id
-  LEFT JOIN hunt_quotas ON hunts.id = hunt_quotas.hunt_id AND hunt_quotas.hunt_year = 2021
-  LEFT JOIN hunt_seasons ON hunts.id = hunt_seasons.hunt_id AND hunt_seasons.hunt_year = 2021
-  LEFT JOIN harvest_data ON hunts.id = harvest_data.hunt_id AND harvest_data.hunt_year = 2020
-  LEFT JOIN draw_data ON hunts.id = draw_data.hunt_id AND draw_data.hunt_year = 2021
+  LEFT JOIN hunt_quotas ON hunts.id = hunt_quotas.hunt_id AND hunt_quotas.hunt_year = previous_hunt_year()
+  LEFT JOIN hunt_seasons ON hunts.id = hunt_seasons.hunt_id AND hunt_seasons.hunt_year = current_hunt_year()
+  LEFT JOIN harvest_data ON hunts.id = harvest_data.hunt_id AND harvest_data.hunt_year = previous_hunt_year()
+  LEFT JOIN draw_data ON hunts.id = draw_data.hunt_id AND draw_data.hunt_year = previous_hunt_year()
   WHERE hunts.is_active
     $<huntDetails:raw>
   ORDER BY hunt_seasons.season_start_date
