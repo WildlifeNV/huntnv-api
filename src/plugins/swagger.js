@@ -1,4 +1,5 @@
 import fp from 'fastify-plugin'
+import { IS_DEV } from '../utils/isDev.js'
 
 export default fp((fastify, opts, next) => {
   fastify.register(import('fastify-swagger'), {
@@ -18,7 +19,7 @@ export default fp((fastify, opts, next) => {
       consumes: ['application/json'],
       produces: ['application/json']
     },
-    exposeRoute: true
+    exposeRoute: IS_DEV
   })
 
   next()
