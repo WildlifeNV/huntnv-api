@@ -15,7 +15,10 @@
     "docker:arm64:build": "docker build --platform linux/arm64 -t huntnv-api:$(jq '.version' package.json | tr -d '\"') -f Dockerfile.prod .",
     "docker:arm64": "npm run docker:arm64:build && npm run docker:tag",
     "docker:amd64:build": "docker build --platform linux/amd64 -t huntnv-api:$(jq '.version' package.json | tr -d '\"') -f Dockerfile.prod .",
-    "docker:amd64": "npm run docker:amd64:build && npm run docker:tag"
+    "docker:amd64": "npm run docker:amd64:build && npm run docker:tag",
+    "ecr:tag": "./scripts/ecr-tag.sh",
+    "ecr:push": "./scripts/ecr-push.sh",
+    "ecr": "ecr:tag && ecr:push"
   },
   "author": "",
   "license": "ISC",
